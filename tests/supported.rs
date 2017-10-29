@@ -7,8 +7,9 @@ extern crate time;
 
 use cookie::Cookie;
 use hyper::header::{ContentType, Headers};
-use hyper::RawStatus;
+use hyper::HttpVersion;
 use hyper::Method;
+use hyper::RawStatus;
 use hyper::Uri;
 use hyper_serde::{De, Ser, Serde};
 use mime::Mime;
@@ -27,6 +28,7 @@ fn supported() {
     is_supported::<Cookie>();
     is_supported::<ContentType>();
     is_supported::<Headers>();
+    is_supported::<HttpVersion>();
     is_supported::<Method>();
     is_supported::<Mime>();
     is_supported::<RawStatus>();

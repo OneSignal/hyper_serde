@@ -7,8 +7,9 @@ extern crate time;
 
 use cookie::Cookie;
 use hyper::header::{ContentType, Headers};
-use hyper::RawStatus;
+use hyper::HttpVersion;
 use hyper::Method;
+use hyper::RawStatus;
 use hyper::Uri;
 use hyper_serde::{De, Ser, deserialize};
 use serde::Deserialize;
@@ -84,6 +85,15 @@ fn test_headers_not_empty() {
 
     assert_ser_tokens(&Ser::new_pretty(&headers), pretty);
     assert_de_tokens(&headers, pretty);
+}
+
+#[test]
+fn test_http_version() {
+    let http_version = HttpVersion::Http11;
+    let tokens = &[Token::Str("HTTP/1.1")];
+
+    assert_ser_tokens(&Ser::new(&http_version), tokens);
+    assert_de_tokens(&http_version, tokens);
 }
 
 #[test]

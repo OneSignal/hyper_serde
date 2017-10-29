@@ -6,6 +6,7 @@
 //! * `cookie::Cookie`
 //! * `hyper::header::ContentType`
 //! * `hyper::header::Headers`
+//! * `hyper::HttpVersion`
 //! * `hyper::RawStatus`
 //! * `hyper::Method`
 //! * `hyper::Uri`
@@ -63,8 +64,9 @@ extern crate time;
 
 use cookie::Cookie;
 use hyper::header::{ContentType, Headers};
-use hyper::RawStatus;
+use hyper::HttpVersion;
 use hyper::Method;
+use hyper::RawStatus;
 use hyper::Uri;
 use mime::Mime;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
@@ -565,6 +567,40 @@ impl<'de> Deserialize<'de> for De<Uri> {
 }
 
 impl<'a> Serialize for Ser<'a, Uri> {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        where S: Serializer,
+    {
+        serializer.serialize_str(&self.v.to_string())
+    }
+}
+
+impl<'de> Deserialize<'de> for De<HttpVersion> {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+        where D: Deserializer<'de>,
+    {
+        struct HttpVersionVisitor;
+
+        impl<'de> Visitor<'de> for HttpVersionVisitor {
+            type Value = De<HttpVersion>;
+
+            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                write!(formatter, "an HTTP version")
+            }
+
+            fn visit_str<E>(self, v: &str) -> Result<Self::Value, E>
+                where E: de::Error,
+            {
+                v.parse::<HttpVersion>().map(De::new).map_err(|_| {
+                    E::custom("could not parse htpp version")
+                })
+            }
+        }
+
+        deserializer.deserialize_string(HttpVersionVisitor)
+    }
+}
+
+impl<'a> Serialize for Ser<'a, HttpVersion> {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
         where S: Serializer,
     {
