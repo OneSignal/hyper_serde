@@ -591,7 +591,7 @@ impl<'de> Deserialize<'de> for De<HttpVersion> {
                 where E: de::Error,
             {
                 v.parse::<HttpVersion>().map(De::new).map_err(|_| {
-                    E::custom("could not parse htpp version")
+                    E::custom("could not parse http version")
                 })
             }
         }
