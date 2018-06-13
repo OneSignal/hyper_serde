@@ -1,13 +1,13 @@
 extern crate cookie;
 extern crate hyper;
+extern crate hyperx;
 extern crate hyper_serde;
 extern crate mime;
 extern crate serde;
 extern crate time;
 
 use cookie::Cookie;
-use hyper::header::{ContentType, Headers};
-use hyper::RawStatus;
+use hyperx::header::{ContentType, Headers};
 use hyper::Method;
 use hyper::Uri;
 use hyper_serde::{De, Ser, Serde};
@@ -29,7 +29,6 @@ fn supported() {
     is_supported::<Headers>();
     is_supported::<Method>();
     is_supported::<Mime>();
-    is_supported::<RawStatus>();
     is_supported::<Tm>();
     is_supported::<Uri>();
 }

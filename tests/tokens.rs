@@ -1,13 +1,13 @@
 extern crate cookie;
 extern crate hyper;
+extern crate hyperx;
 extern crate hyper_serde;
 extern crate serde;
 extern crate serde_test;
 extern crate time;
 
 use cookie::Cookie;
-use hyper::header::{ContentType, Headers};
-use hyper::RawStatus;
+use hyperx::header::{ContentType, Headers};
 use hyper::Method;
 use hyper::Uri;
 use hyper_serde::{De, Ser, deserialize};
@@ -54,7 +54,7 @@ fn test_headers_empty() {
 
 #[test]
 fn test_headers_not_empty() {
-    use hyper::header::Host;
+    use hyperx::header::Host;
 
     let mut headers = Headers::new();
     headers.set(Host::new(
@@ -88,25 +88,11 @@ fn test_headers_not_empty() {
 
 #[test]
 fn test_method() {
-    let method = Method::Put;
+    let method = Method::PUT;
     let tokens = &[Token::Str("PUT")];
 
     assert_ser_tokens(&Ser::new(&method), tokens);
     assert_de_tokens(&method, tokens);
-}
-
-#[test]
-fn test_raw_status() {
-    use std::borrow::Cow;
-
-    let raw_status = RawStatus(200, Cow::Borrowed("OK"));
-    let tokens = &[Token::Tuple{ len: 2 },
-                   Token::U16(200),
-                   Token::Str("OK"),
-                   Token::TupleEnd];
-
-    assert_ser_tokens(&Ser::new(&raw_status), tokens);
-    assert_de_tokens(&raw_status, tokens);
 }
 
 #[test]
@@ -124,7 +110,8 @@ fn test_tm() {
 fn test_uri() {
     use std::str::FromStr;
 
-    let uri_string = "abc://username:password@example.com:123/path/data?key=value&key2=value2#fragid1";
+    // Note that fragment is not serialized / deserialized
+    let uri_string = "abc://username:password@example.com:123/path/data?key=value&key2=value2";
     let uri = Uri::from_str(uri_string).unwrap();
     let tokens = &[Token::Str(uri_string)];
 

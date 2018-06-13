@@ -2,10 +2,11 @@ Serde support for Hyper types
 =============================
 
 This crate provides wrappers and convenience functions to support [Serde] for
-some types defined in [cookie], [Hyper], [mime] and [time].
+some types defined in [cookie], [Hyper], [hyperx], [mime] and [time].
 
 [cookie]: https://github.com/alexcrichton/cookie-rs
 [Hyper]: https://github.com/hyperium/hyper
+[hyperx]: https://github.com/dekellum/hyperx
 [mime]: https://github.com/hyperium/mime.rs
 [Serde]: https://github.com/serde-rs/serde
 [time]: https://github.com/rust-lang-deprecated/time
@@ -13,13 +14,19 @@ some types defined in [cookie], [Hyper], [mime] and [time].
 The supported types are:
 
 * `cookie::Cookie`
-* `hyper::header::ContentType`
-* `hyper::header::Headers`
-* `hyper::RawStatus`
+* `hyperx::header::ContentType`
+* `hyperx::header::Headers`
 * `hyper::Method`
 * `hyper::Uri`
 * `mime::Mime`
 * `time::Tm`
+
+What is `hyperx`? As of hyper 0.12, the `header` module was removed and replaced
+with the `http` types like `HeaderMap`. All typed headers like `ContentType` were
+removed [for now](https://github.com/hyperium/hyper/blob/master/CHANGELOG.md).
+
+`hyperx` is a fork that contains all the headers that were removed as well as
+a conversion from `Headers` to the new `HeaderMap` type.
 
 For more details, see the crate documentation.
 

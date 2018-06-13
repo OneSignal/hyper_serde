@@ -4,9 +4,8 @@
 //! The supported types are:
 //!
 //! * `cookie::Cookie`
-//! * `hyper::header::ContentType`
-//! * `hyper::header::Headers`
-//! * `hyper::RawStatus`
+//! * `hyperx::header::ContentType`
+//! * `hyperx::header::Headers`
 //! * `hyper::Method`
 //! * `hyper::Uri`
 //! * `mime::Mime`
@@ -56,14 +55,14 @@
 
 extern crate cookie;
 extern crate hyper;
+extern crate hyperx;
 extern crate mime;
 extern crate serde;
 extern crate serde_bytes;
 extern crate time;
 
 use cookie::Cookie;
-use hyper::header::{ContentType, Headers};
-use hyper::RawStatus;
+use hyperx::header::{ContentType, Headers};
 use hyper::Method;
 use hyper::Uri;
 use mime::Mime;
@@ -490,23 +489,6 @@ impl<'a> Serialize for Ser<'a, Mime> {
         where S: Serializer,
     {
         serializer.serialize_str(&self.v.to_string())
-    }
-}
-
-impl<'de> Deserialize<'de> for De<RawStatus> {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-        where D: Deserializer<'de>,
-    {
-        let (code, reason) = Deserialize::deserialize(deserializer)?;
-        Ok(De::new(RawStatus(code, reason)))
-    }
-}
-
-impl<'a> Serialize for Ser<'a, RawStatus> {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where S: Serializer,
-    {
-        (self.v.0, &self.v.1).serialize(serializer)
     }
 }
 
