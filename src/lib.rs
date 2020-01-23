@@ -62,7 +62,7 @@ extern crate serde_bytes;
 extern crate time;
 
 use cookie::Cookie;
-use hyperx::header::{ContentType, Headers};
+use hyperx::header::{ContentType, Headers, RawLike};
 use hyper::Method;
 use hyper::Uri;
 use mime::Mime;
