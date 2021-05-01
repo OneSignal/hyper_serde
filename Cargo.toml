@@ -1,6 +1,6 @@
 [package]
 name = "hyper_serde"
-version = "0.9.0"
+version = "0.10.0"
 authors = ["Anthony Ramine <n.oxyde@gmail.com>"]
 description = "Serde support for Hyper types"
 license = "MIT/Apache-2.0"
@@ -17,11 +17,11 @@ doctest = false
 
 [dependencies]
 cookie = {version = "0.10", default-features = false}
-hyper = "0.13"
+hyper = "0.14"
 hyperx = { version = "1", features = ["headers"] }
 mime = "0.3"
 serde = "1.0"
-serde_bytes = "0.10"
+serde_bytes = "0.11"
 time = "0.1"
 
 [dev-dependencies]

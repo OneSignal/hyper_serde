@@ -375,7 +375,7 @@ impl<'de> Deserialize<'de> for De<Headers> {
                 let capacity = cmp::min(visitor.size_hint().unwrap_or(0), 64);
                 let mut values = Vec::with_capacity(capacity);
                 while let Some(v) = visitor.next_element::<ByteBuf>()? {
-                    values.push(v.into());
+                    values.push(v.into_vec());
                 }
                 Ok(Value(values))
             }
